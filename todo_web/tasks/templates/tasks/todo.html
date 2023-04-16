@@ -1,0 +1,71 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+    {% block title %}TODO{% endblock %}
+    {% block main-content %}
+        <div class="container-fluid mt-5">
+            <div class="row" style="height: 80vh;">
+                <div class="col-sm-3 overflow-auto">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>Your have {{projects|length}} projects</h3>
+                        <a href="{% url 'create-project' %}" class="btn btn-success circle"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                    <div class="projects-blocks">
+                        {% if projects|length > 0 %}
+                            {% for project in projects %}
+                                <div class="d-flex justify-content-around shadow rounded-4 align-items-center pt-3 mt-4" style="position: relative">
+                                    <div>
+                                        <p style="margin: 0; font-weight: 700">{{ project.name }}</p>
+                                        <p>{{ project.date_create }}</p>
+                                    </div>
+                                    <p class="text-center" style="font-weight: 700">{{ project.done_per_cent }}%</p>
+                                    <p class="text-white">
+                                        <a href="{% url 'todo-tasks' project.pk %}" class="circle btn btn-success" style="font-weight: 600; padding: 7px 15px"><i class="fa-solid fa-play"></i></a> 
+                                    </p>
+                                    <div class="bg-success" style="position: absolute; bottom: 12px; left: 0; width: {{project.done_per_cent}}%; height: 2px;"></div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h4 class="text-center mt-5 text-secondary fs-5">You don't have any projects</h4>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-9 position-relative">
+                    {% if todo %}
+                        <div class="d-flex flex-wrap ms-5">
+                            {% for item in todo %}
+                                <div class="d-flex justify-content-between shadow rounded-4 align-items-center pt-3 px-3 me-3 mb-3">
+                                    <div class="me-4">
+                                        <p style="margin: 0; font-weight: 700">{{ item.name }}</p>
+                                        <p>{{ item.date_create }}</p>
+                                    </div>
+                                    {% if not item.is_done %}
+                                        <a class="text-center circle btn btn-success text-white mb-3 is-done" is-done="{{ item.pk }}" style="font-weight: 700; padding: 7px"><i class="fa-solid fa-check"></i></a>
+                                    {% else %}
+                                        <a class="text-center circle btn btn-secondary text-white mb-3 is-done" is-done="{{ item.pk }}" style="font-weight: 700; padding: 6px"><i class="fa-solid fa-xmark"></i></a>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'create-task' %}" class="btn btn-success circle position-absolute bottom-0 end-0 me-5 mb-5"><i class="fa-solid fa-plus"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block script %}
+        <script>
+            $('.is-done').click(function(){
+                let id = $(this).attr('is-done').toString();
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'is-done' %}",
+                    data: {
+                        task_id: id
+                    },
+                    success: function(data){
+                        document.location.reload();
+                    }
+                });
+            });
+        </script>
+    {% endblock %}

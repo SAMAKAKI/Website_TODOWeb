@@ -1,0 +1,34 @@
+.circle{
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    padding: 5px;
+    font-size: 120%;
+}
+/* .backGround{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 5;
+    background-color: grey;
+    opacity: .5;
+}
+.blockName{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    width: 500px;
+    height: 250px;
+    background-color: #198754;
+    border-radius: 20px;
+}
+.close{
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 130%;
+} */

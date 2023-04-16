@@ -1,0 +1,26 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+    {% block title %}CREATE TASK{% endblock %}
+    {% block main-content %}
+        <div class="container mt-5 pt-5">
+            <div class="mx-auto bg-success rounded-3 text-white pt-3" style="width: 500px; height: 350px">
+                <form method="post" class="form-floating text-dark mx-auto" style="width: 450px">
+                    {% csrf_token %}
+                    {% for item in form %}
+                        {{ item }}
+                    {% endfor %}
+                    <button class="btn btn-light float-end mt-5">Create</button>
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p class="alert alert-danger my-3">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <div class="alert alert-{{ msg.tags }}" role="alert">{{ msg }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    {% endblock %}
